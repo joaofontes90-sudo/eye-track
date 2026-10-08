@@ -245,12 +245,11 @@ class App {
     const h = window.innerHeight;
     const now = performance.now();
 
-    // Determina o quadrante instantâneo da amostra
-    // Zona superior (SIM e NÃO): requer apenas leve elevação do olhar
-    // Zona inferior: DESCANSO DO OLHAR
+    // Zona inferior: DESCANSO DO OLHAR (qualquer olhar do centro para baixo já ativa o descanso)
+    // Zona superior: SIM e NÃO
     let instantQuadKey = null;
 
-    if (y >= h * 0.54) {
+    if (y >= h * 0.44) {
       instantQuadKey = 'bottom-rest';
     } else if (x < w / 2) {
       instantQuadKey = 'top-left'; // SIM

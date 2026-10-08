@@ -5,11 +5,11 @@
 export class Calibrator {
   constructor() {
     this.points = [
-      { id: 'top-left', name: 'Superior Esquerdo', rx: 0.25, ry: 0.30 },
-      { id: 'top-right', name: 'Superior Direito', rx: 0.75, ry: 0.30 },
-      { id: 'center', name: 'Centro', rx: 0.50, ry: 0.50 },
-      { id: 'bottom-right', name: 'Inferior Direito', rx: 0.75, ry: 0.70 },
-      { id: 'bottom-left', name: 'Inferior Esquerdo', rx: 0.25, ry: 0.70 }
+      { id: 'top-left', name: 'Superior Esquerdo', rx: 0.25, ry: 0.28 },
+      { id: 'top-right', name: 'Superior Direito', rx: 0.75, ry: 0.28 },
+      { id: 'center', name: 'Centro', rx: 0.50, ry: 0.47 },
+      { id: 'bottom-right', name: 'Inferior Direito', rx: 0.75, ry: 0.63 },
+      { id: 'bottom-left', name: 'Inferior Esquerdo', rx: 0.25, ry: 0.63 }
     ];
     this.currentPointIndex = 0;
     this.isCalibrating = false;

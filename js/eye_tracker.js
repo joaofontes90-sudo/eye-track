@@ -177,7 +177,10 @@ export class EyeTracker {
     const minY = Math.min(top.y, bottom.y);
     const maxY = Math.max(top.y, bottom.y);
     const spanY = maxY - minY;
-    let gy = spanY > 0.001 ? (iris.y - minY) / spanY : 0.5;
+    let rawGy = spanY > 0.001 ? (iris.y - minY) / spanY : 0.5;
+
+    // Expansão de sensibilidade vertical para facilitar movimentos para baixo
+    let gy = (rawGy - 0.48) * 1.35 + 0.50;
 
     // Clampa valores no intervalo [0, 1]
     gx = Math.max(0, Math.min(1, gx));
