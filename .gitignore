@@ -1,0 +1,7 @@
+# Arquivos de gravação grandes
+*.mov
+*.mp4
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eye Tracking Assistivo - Protótipo de Comunicação</title>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- MediaPipe FaceMesh & Camera Utils via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- ==========================================================
+       ESTÁGIO 1: ENQUADRAMENTO FACIAL & INÍCIO
+       ========================================================== -->
+  <section id="stage-framing" class="stage-container active">
+    <div class="framing-header">
+      <h1>Posicionamento & Enquadramento</h1>
+      <p>Posicione o rosto centralizado no visor e mantenha a cabeça confortável e fixa.</p>
+    </div>
+
+    <div class="camera-preview-wrapper">
+      <video id="webcam-video" playsinline muted autoplay></video>
+      <canvas id="webcam-canvas"></canvas>
+      <div class="face-guide-overlay"></div>
+    </div>
+
+    <div class="framing-controls">
+      <div id="framing-status-pill" class="status-pill">
+        ⏳ Inicializando câmera e MediaPipe...
+      </div>
+      <button id="btn-start-calibration" class="btn-primary" disabled>
+        Iniciar Calibração (5 Pontos)
+      </button>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       ESTÁGIO 2: PREPARAÇÃO (3, 2, 1 CONTAGEM REGRESSIVA)
+       ========================================================== -->
+  <section id="stage-prepare" class="stage-container">
+    <div class="prepare-card">
+      <div id="prepare-number" class="prepare-number">3</div>
+      <div class="prepare-text">Prepare-se...</div>
+      <div class="prepare-sub">Mantenha a cabeça firme e siga o ponto com os olhos</div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       ESTÁGIO 3: CALIBRAÇÃO GUIADA EM 5 PONTOS
+       ========================================================== -->
+  <section id="stage-calibrating" class="stage-container">
+    <div class="calib-instructions">
+      <h2>Calibração do Olhar</h2>
+      <p id="calib-step-text">Olhe fixamente para o ponto vermelho</p>
+    </div>
+
+    <div id="calibration-target">
+      <div class="target-center-dot"></div>
+      <div class="target-glow-ring"></div>
+      <svg class="target-svg-ring" viewBox="0 0 100 100">
+        <circle class="target-ring-bg" cx="50" cy="50" r="45"></circle>
+        <circle id="calib-progress-ring" cx="50" cy="50" r="45"></circle>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       ESTÁGIO 3: COMUNICAÇÃO ASSISTIVA (SIM / NÃO / DESCANSO)
+       ========================================================== -->
+  <section id="stage-quadrants" class="stage-container">
+    <!-- Superior Esquerdo: SIM -->
+    <div id="quad-top-left" class="quadrant-card" data-action-label="Sim">
+      <div class="quadrant-icon">👍</div>
+      <div class="quadrant-title">SIM</div>
+      <div class="quadrant-sub">Fixe o olhar para confirmar</div>
+      <div class="dwell-progress-container">
+        <div class="dwell-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Superior Direito: NÃO -->
+    <div id="quad-top-right" class="quadrant-card" data-action-label="Não">
+      <div class="quadrant-icon">👎</div>
+      <div class="quadrant-title">NÃO</div>
+      <div class="quadrant-sub">Fixe o olhar para confirmar</div>
+      <div class="dwell-progress-container">
+        <div class="dwell-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Inferior Total: DESCANSO DO OLHAR (ZONA NEUTRA SEM AÇÃO) -->
+    <div id="quad-rest" class="quadrant-card bottom-rest-card" data-action-label="Descanso">
+      <div class="quadrant-icon">🌿</div>
+      <div class="quadrant-title">DESCANSO DO OLHAR</div>
+      <div class="quadrant-sub">Área neutra para relaxar os olhos (nenhuma ação será disparada)</div>
+    </div>
+  </section>
+
+  <!-- Cursor Visual do Olhar -->
+  <div id="gaze-cursor"></div>
+
+  <!-- Painel de Diagnóstico e Calibração Rápida -->
+  <div class="diagnostics-panel">
+    <div class="diag-header">
+      <span>Painel de Controle</span>
+      <span id="diag-fps">60 FPS</span>
+    </div>
+    <div class="diag-item">
+      <span>Coordenadas:</span>
+      <span id="diag-gaze">--</span>
+    </div>
+    <div class="diag-item">
+      <span>Status / Foco:</span>
+      <span id="diag-quadrant">Aguardando</span>
+    </div>
+
+    <div class="diag-controls">
+      <div class="diag-control-row">
+        <label>Tempo de Fixação (Dwell): <b id="val-dwell">1.2s</b></label>
+        <input id="slider-dwell" type="range" min="600" max="3000" step="100" value="1200">
+      </div>
+      <div class="diag-control-row">
+        <label>Janela de Média (Anti-Flicker): <b id="val-window">0.75s</b></label>
+        <input id="slider-window" type="range" min="300" max="1500" step="50" value="750">
+      </div>
+    </div>
+
+    <div class="diag-actions">
+      <button id="btn-recalibrate" class="btn-secondary" title="Atalho: Tecla C">Recalibrar (C)</button>
+      <button id="btn-return-framing" class="btn-secondary">Enquadramento</button>
+    </div>
+  </div>
+
+  <!-- Módulo JS Principal -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
