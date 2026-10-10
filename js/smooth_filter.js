@@ -107,16 +107,8 @@ export class TemporalQuadrantClassifier {
 
     const ratio = maxCount / total;
 
-    // Histerese para evitar trocas falsas na borda
-    if (this.currentStableQuadrant) {
-      const currentCount = counts[this.currentStableQuadrant] || 0;
-      const currentRatio = currentCount / total;
-      if (currentRatio >= 0.35 && maxKey !== this.currentStableQuadrant && ratio < this.hysteresisThreshold) {
-        maxKey = this.currentStableQuadrant;
-      }
-    }
-
-    if (ratio >= (this.currentStableQuadrant === maxKey ? 0.35 : this.hysteresisThreshold)) {
+    // Se o quadrante com maior número de amostras atingir pelo menos 45% da janela, assume como estável
+    if (ratio >= 0.45) {
       this.currentStableQuadrant = maxKey;
     }
 

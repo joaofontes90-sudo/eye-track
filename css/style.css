@@ -498,14 +498,15 @@ body, html {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .dwell-progress-fill {
   width: 0%;
   height: 100%;
   background-color: currentColor;
+  box-shadow: 0 0 18px currentColor;
   transition: width 0.05s linear;
 }
 

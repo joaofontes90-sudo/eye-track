@@ -1,7 +1,7 @@
-import { EyeTracker } from './eye_tracker.js?v=5';
-import { Calibrator } from './calibrator.js?v=5';
-import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js?v=5';
-import { sounds } from './audio.js?v=5';
+import { EyeTracker } from './eye_tracker.js?v=6';
+import { Calibrator } from './calibrator.js?v=6';
+import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js?v=6';
+import { sounds } from './audio.js?v=6';
 
 class App {
   constructor() {
@@ -62,6 +62,15 @@ class App {
       this.startCalibrationFlow();
     });
 
+    const btnQuickStart = document.getElementById('btn-quick-start');
+    if (btnQuickStart) {
+      btnQuickStart.addEventListener('click', () => {
+        this.setStage('quadrants');
+        sounds.playSuccessJingle();
+        sounds.speak("Modo de teste rápido iniciado. Olhe para as opções.");
+      });
+    }
+
     document.getElementById('btn-recalibrate').addEventListener('click', () => {
       this.startCalibrationFlow();
     });
@@ -101,6 +110,17 @@ class App {
       });
     }
 
+    // Suporte a mouse para testes manuais quando a câmera não estiver fornecendo olhar
+    window.addEventListener('mousemove', (e) => {
+      if (this.stage === 'quadrants') {
+        const gaze = this.eyeTracker?.lastEyeGaze;
+        if (!gaze || !gaze.faceDetected || !gaze.valid) {
+          this.evaluateQuadrantFocus(e.clientX, e.clientY);
+          this.updateGazeCursor(e.clientX, e.clientY);
+        }
+      }
+    });
+
     // Atalhos de teclado para facilidade de teste
     window.addEventListener('keydown', (e) => {
       if (e.key === 'c' || e.key === 'C') {
@@ -127,6 +147,8 @@ class App {
       document.getElementById('framing-status-pill').textContent = "● Câmera Ativa & Rosto Detectado";
       document.getElementById('framing-status-pill').className = "status-pill active";
       document.getElementById('btn-start-calibration').disabled = false;
+      const btnQuick = document.getElementById('btn-quick-start');
+      if (btnQuick) btnQuick.disabled = false;
     } catch (err) {
       console.error("Erro ao inicializar webcam/FaceMesh:", err);
       document.getElementById('framing-status-pill').textContent = "❌ Erro ao acessar webcam: " + err.message;

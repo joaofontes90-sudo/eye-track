@@ -17,6 +17,35 @@ export class Calibrator {
     this.calibrationData = []; // [{ target: {x, y}, iris: {gx, gy} }]
     this.modelCoeffs = null; // { wx: [], wy: [] }
     this.isCalibrated = false;
+
+    this.loadSavedCalibration();
+  }
+
+  loadSavedCalibration() {
+    try {
+      const saved = localStorage.getItem('eye_tracking_calibration_v2');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.wx && parsed.wy) {
+          this.modelCoeffs = parsed;
+          this.isCalibrated = true;
+          console.log('Calibração restaurada com sucesso do cache local:', this.modelCoeffs);
+        }
+      }
+    } catch (e) {
+      console.warn('Não foi possível restaurar calibração:', e);
+    }
+  }
+
+  saveCalibration() {
+    try {
+      if (this.modelCoeffs) {
+        localStorage.setItem('eye_tracking_calibration_v2', JSON.stringify(this.modelCoeffs));
+        console.log('Calibração salva no armazenamento local.');
+      }
+    } catch (e) {
+      console.warn('Erro ao salvar calibração:', e);
+    }
   }
 
   startCalibration() {
@@ -155,6 +184,7 @@ export class Calibrator {
 
     this.modelCoeffs = { wx, wy };
     this.isCalibrated = true;
+    this.saveCalibration();
     console.log("Calibração concluída com sucesso! Coeficientes:", this.modelCoeffs);
   }
 
@@ -188,15 +218,22 @@ export class Calibrator {
       wy: [minTy - minGy * scaleY, 0, scaleY, 0]
     };
     this.isCalibrated = true;
+    this.saveCalibration();
     console.log("Calibração concluída via Fallback Linear:", this.modelCoeffs);
   }
 
   predict(gx, gy, screenWidth, screenHeight) {
     if (!this.isCalibrated || !this.modelCoeffs) {
-      // Fallback proporcional se ainda não calibrado
+      // Mapeamento proporcional adaptativo com ganho adequado para a amplitude ocular humana
+      // Faixa física normal da íris: ~0.42 a 0.58.
+      // Olhar ao centro/repouso (0.50) -> x = 0.42 * W (Dentro do Descanso)
+      // Olhar à direita (0.54+) -> x >= 0.65 * W (Entra em SIM / NÃO)
+      // Olhar à esquerda (0.46-) -> x <= 0.25 * W (Descanso profundo)
+      const mappedX = ((gx - 0.50) * 3.6 + 0.44) * screenWidth;
+      const mappedY = ((gy - 0.48) * 3.2 + 0.50) * screenHeight;
       return {
-        x: gx * screenWidth,
-        y: gy * screenHeight
+        x: Math.max(0, Math.min(screenWidth, mappedX)),
+        y: Math.max(0, Math.min(screenHeight, mappedY))
       };
     }
 
@@ -210,9 +247,9 @@ export class Calibrator {
       py += wy[i] * features[i];
     }
 
-    // Clamp suave nas bordas da tela
-    px = Math.max(-50, Math.min(screenWidth + 50, px));
-    py = Math.max(-50, Math.min(screenHeight + 50, py));
+    // Clamp nas bordas da tela
+    px = Math.max(0, Math.min(screenWidth, px));
+    py = Math.max(0, Math.min(screenHeight, py));
 
     return { x: px, y: py };
   }

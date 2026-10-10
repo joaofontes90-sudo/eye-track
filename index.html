@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eye Tracking Assistivo - Protótipo de Comunicação</title>
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
   
   <!-- MediaPipe FaceMesh & Camera Utils via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -32,9 +32,14 @@
       <div id="framing-status-pill" class="status-pill">
         ⏳ Inicializando câmera e MediaPipe...
       </div>
-      <button id="btn-start-calibration" class="btn-primary" disabled>
-        Iniciar Calibração (5 Pontos)
-      </button>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+        <button id="btn-start-calibration" class="btn-primary" disabled>
+          Iniciar Calibração (5 Pontos)
+        </button>
+        <button id="btn-quick-start" class="btn-secondary" style="padding: 16px 28px; font-size: 1.15rem; font-weight: 600; border-radius: 12px; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(56, 189, 248, 0.4);" disabled>
+          ⚡ Testar Direto (Sem Calibração)
+        </button>
+      </div>
     </div>
   </section>
 
@@ -140,6 +145,6 @@
   </div>
 
   <!-- Módulo JS Principal -->
-  <script type="module" src="js/app.js?v=5"></script>
+  <script type="module" src="js/app.js?v=6"></script>
 </body>
 </html>
