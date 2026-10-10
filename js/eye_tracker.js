@@ -170,9 +170,9 @@ export class EyeTracker {
     const maxX = Math.max(inner.x, outer.x);
     const spanX = maxX - minX;
 
-    // Normaliza gx: invertido para refletir a tela espelhada naturalmente
-    let rawGx = spanX > 0.001 ? (iris.x - minX) / spanX : 0.5;
-    let gx = 1 - rawGx; // Espelhamento natural (olhar para a direita move o cursor para a direita)
+    // Expansão de sensibilidade horizontal e vertical para amplitude ocular de paciente acamado
+    let centeredGx = (1 - rawGx) - 0.50;
+    let gx = centeredGx * 1.35 + 0.50;
 
     const minY = Math.min(top.y, bottom.y);
     const maxY = Math.max(top.y, bottom.y);
@@ -180,7 +180,8 @@ export class EyeTracker {
     let rawGy = spanY > 0.001 ? (iris.y - minY) / spanY : 0.5;
 
     // Expansão de sensibilidade vertical para facilitar movimentos para baixo
-    let gy = (rawGy - 0.48) * 1.35 + 0.50;
+    let centeredGy = rawGy - 0.48;
+    let gy = centeredGy * 1.35 + 0.50;
 
     // Clampa valores no intervalo [0, 1]
     gx = Math.max(0, Math.min(1, gx));

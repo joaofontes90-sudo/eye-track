@@ -510,7 +510,19 @@ body, html {
 }
 
 #gaze-cursor {
-  display: none !important; /* Cursor oculto conforme requisito para evitar distração visual */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 0 15px #38bdf8, 0 0 35px rgba(56, 189, 248, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-100px, -100px);
+  display: none; /* Oculto por padrão para o paciente; acionável no painel pelo botão 'Ver Ponto' */
+  transition: transform 0.04s ease-out;
 }
 
 /* ==========================================================

@@ -5,11 +5,11 @@
 export class Calibrator {
   constructor() {
     this.points = [
-      { id: 'top-left', name: 'Superior Esquerdo (Descanso)', rx: 0.30, ry: 0.30 },
-      { id: 'top-right', name: 'Superior Direito (SIM)', rx: 0.80, ry: 0.30 },
-      { id: 'center', name: 'Centro', rx: 0.50, ry: 0.50 },
-      { id: 'bottom-right', name: 'Inferior Direito (NÃO)', rx: 0.80, ry: 0.70 },
-      { id: 'bottom-left', name: 'Inferior Esquerdo (Descanso)', rx: 0.30, ry: 0.70 }
+      { id: 'top-left', name: 'Superior Esquerdo (Descanso)', rx: 0.25, ry: 0.28 },
+      { id: 'top-right', name: 'Superior Direito (SIM)', rx: 0.80, ry: 0.28 },
+      { id: 'center', name: 'Centro (Descanso)', rx: 0.40, ry: 0.50 },
+      { id: 'bottom-right', name: 'Inferior Direito (NÃO)', rx: 0.80, ry: 0.72 },
+      { id: 'bottom-left', name: 'Inferior Esquerdo (Descanso)', rx: 0.25, ry: 0.72 }
     ];
     this.currentPointIndex = 0;
     this.isCalibrating = false;
@@ -137,7 +137,8 @@ export class Calibrator {
 
     const invXtX = this._invertMatrix(XtX);
     if (!invXtX) {
-      console.error("Erro ao inverter matriz de calibração.");
+      console.warn("Aviso: matriz singular na calibração. Aplicando ajuste linear adaptativo de segurança.");
+      this._fitLinearFallback();
       return;
     }
 
@@ -155,6 +156,39 @@ export class Calibrator {
     this.modelCoeffs = { wx, wy };
     this.isCalibrated = true;
     console.log("Calibração concluída com sucesso! Coeficientes:", this.modelCoeffs);
+  }
+
+  _fitLinearFallback() {
+    const pts = this.calibrationData;
+    if (pts.length === 0) return;
+
+    let minGx = Infinity, maxGx = -Infinity;
+    let minGy = Infinity, maxGy = -Infinity;
+    let minTx = Infinity, maxTx = -Infinity;
+    let minTy = Infinity, maxTy = -Infinity;
+
+    for (const d of pts) {
+      if (d.gx < minGx) minGx = d.gx;
+      if (d.gx > maxGx) maxGx = d.gx;
+      if (d.gy < minGy) minGy = d.gy;
+      if (d.gy > maxGy) maxGy = d.gy;
+      if (d.targetX < minTx) minTx = d.targetX;
+      if (d.targetX > maxTx) maxTx = d.targetX;
+      if (d.targetY < minTy) minTy = d.targetY;
+      if (d.targetY > maxTy) maxTy = d.targetY;
+    }
+
+    const spanGx = Math.max(0.01, maxGx - minGx);
+    const spanGy = Math.max(0.01, maxGy - minGy);
+    const scaleX = (maxTx - minTx) / spanGx;
+    const scaleY = (maxTy - minTy) / spanGy;
+
+    this.modelCoeffs = {
+      wx: [minTx - minGx * scaleX, scaleX, 0, 0],
+      wy: [minTy - minGy * scaleY, 0, scaleY, 0]
+    };
+    this.isCalibrated = true;
+    console.log("Calibração concluída via Fallback Linear:", this.modelCoeffs);
   }
 
   predict(gx, gy, screenWidth, screenHeight) {

@@ -1,7 +1,7 @@
-import { EyeTracker } from './eye_tracker.js';
-import { Calibrator } from './calibrator.js';
-import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js';
-import { sounds } from './audio.js';
+import { EyeTracker } from './eye_tracker.js?v=5';
+import { Calibrator } from './calibrator.js?v=5';
+import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js?v=5';
+import { sounds } from './audio.js?v=5';
 
 class App {
   constructor() {
@@ -11,8 +11,8 @@ class App {
     this.eyeTracker = null;
     this.calibrator = new Calibrator();
     this.gazeFilter = new AdaptiveGazeFilter();
-    // Classificador temporal por média móvel (janela de 750ms para eliminar 100% do flickering)
-    this.quadrantClassifier = new TemporalQuadrantClassifier(750, 0.55);
+    // Classificador temporal por média móvel (janela de 500ms para resposta ágil e zero flickering)
+    this.quadrantClassifier = new TemporalQuadrantClassifier(500, 0.50);
 
     // Elementos DOM
     this.videoEl = document.getElementById('webcam-video');
@@ -87,6 +87,17 @@ class App {
         const val = parseInt(e.target.value, 10);
         this.quadrantClassifier.setWindowMs(val);
         windowDisplay.textContent = `${(val / 1000).toFixed(2)}s`;
+      });
+    }
+
+    const btnToggleCursor = document.getElementById('btn-toggle-cursor');
+    if (btnToggleCursor) {
+      btnToggleCursor.addEventListener('click', () => {
+        this.showCursor = !this.showCursor;
+        btnToggleCursor.textContent = this.showCursor ? 'Ocultar Cursor' : 'Ver Ponto';
+        if (this.gazeCursor) {
+          this.gazeCursor.style.display = (this.showCursor && this.stage === 'quadrants') ? 'block' : 'none';
+        }
       });
     }
 
@@ -236,8 +247,8 @@ class App {
   }
 
   updateGazeCursor(x, y) {
-    if (!this.showCursor) return;
-    this.gazeCursor.style.transform = `translate(${x}px, ${y}px)`;
+    if (!this.showCursor || !this.gazeCursor) return;
+    this.gazeCursor.style.transform = `translate(${x - 12}px, ${y - 12}px)`;
   }
 
   evaluateQuadrantFocus(x, y) {
@@ -265,11 +276,11 @@ class App {
 
     if (this.quadConfidenceValue) {
       if (activeQuadKey === 'left-rest') {
-        this.quadConfidenceValue.textContent = "💤 Olhar em Descanso (Neutro - 60% Esq)";
+        this.quadConfidenceValue.textContent = "💤 DESCANSO (60% Esquerda)";
       } else {
         const confPercent = stable ? Math.round(stable.confidence * 100) : 100;
-        const name = activeQuadKey === 'right-top' ? 'SIM (Dir Superior)' : 'NÃO (Dir Inferior)';
-        this.quadConfidenceValue.textContent = `Focado em: ${name} (${confPercent}%)`;
+        const name = activeQuadKey === 'right-top' ? '👍 SIM (Direita Acima)' : '👎 NÃO (Direita Abaixo)';
+        this.quadConfidenceValue.textContent = `${name} (${confPercent}%)`;
       }
     }
 
@@ -307,6 +318,7 @@ class App {
   _highlightQuadrant(quadKey, isActive) {
     Object.keys(this.quadrantCards).forEach((k) => {
       const card = this.quadrantCards[k];
+      if (!card) return;
       if (k === quadKey && isActive) {
         card.classList.add('focused');
       } else {
@@ -326,6 +338,7 @@ class App {
 
   _resetQuadrantProgress() {
     Object.values(this.quadrantCards).forEach((card) => {
+      if (!card) return;
       card.classList.remove('focused', 'selected');
       const progressBar = card.querySelector('.dwell-progress-fill');
       if (progressBar) progressBar.style.width = '0%';
@@ -339,7 +352,7 @@ class App {
     card.classList.add('selected');
     sounds.playBeep(880, 0.25, 'sine');
 
-    const label = card.getAttribute('data-action-label') || card.querySelector('.quadrant-title').textContent;
+    const label = card.getAttribute('data-action-label') || (card.querySelector('.quadrant-title') ? card.querySelector('.quadrant-title').textContent : quadKey);
     sounds.speak(label);
 
     setTimeout(() => {

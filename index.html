@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eye Tracking Assistivo - Protótipo de Comunicação</title>
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
   
   <!-- MediaPipe FaceMesh & Camera Utils via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -133,12 +133,13 @@
     </div>
 
     <div class="diag-actions">
+      <button id="btn-toggle-cursor" class="btn-secondary" title="Mostra ou esconde o ponto visual do olhar">Ver Ponto</button>
       <button id="btn-recalibrate" class="btn-secondary" title="Atalho: Tecla C">Recalibrar (C)</button>
       <button id="btn-return-framing" class="btn-secondary">Enquadramento</button>
     </div>
   </div>
 
   <!-- Módulo JS Principal -->
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=5"></script>
 </body>
 </html>
