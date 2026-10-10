@@ -69,34 +69,37 @@
   </section>
 
   <!-- ==========================================================
-       ESTÁGIO 3: COMUNICAÇÃO ASSISTIVA (SIM / NÃO / DESCANSO)
+       ESTÁGIO 3: COMUNICAÇÃO ASSISTIVA (DESCANSO 60% ESQUERDA | SIM & NÃO 40% DIREITA)
        ========================================================== -->
   <section id="stage-quadrants" class="stage-container">
-    <!-- Superior Esquerdo: SIM -->
-    <div id="quad-top-left" class="quadrant-card" data-action-label="Sim">
-      <div class="quadrant-icon">👍</div>
-      <div class="quadrant-title">SIM</div>
-      <div class="quadrant-sub">Fixe o olhar para confirmar</div>
-      <div class="dwell-progress-container">
-        <div class="dwell-progress-fill"></div>
-      </div>
-    </div>
-
-    <!-- Superior Direito: NÃO -->
-    <div id="quad-top-right" class="quadrant-card" data-action-label="Não">
-      <div class="quadrant-icon">👎</div>
-      <div class="quadrant-title">NÃO</div>
-      <div class="quadrant-sub">Fixe o olhar para confirmar</div>
-      <div class="dwell-progress-container">
-        <div class="dwell-progress-fill"></div>
-      </div>
-    </div>
-
-    <!-- Inferior Total: DESCANSO DO OLHAR (ZONA NEUTRA SEM AÇÃO) -->
-    <div id="quad-rest" class="quadrant-card bottom-rest-card" data-action-label="Descanso">
+    <!-- Coluna Esquerda (60% da largura): DESCANSO DO OLHAR -->
+    <div id="quad-left-rest" class="quadrant-card left-rest-card" data-action-label="Descanso">
       <div class="quadrant-icon">🌿</div>
       <div class="quadrant-title">DESCANSO DO OLHAR</div>
-      <div class="quadrant-sub">Área neutra para relaxar os olhos (nenhuma ação será disparada)</div>
+      <div class="quadrant-sub">Área neutra para relaxar os olhos (sem ação)</div>
+    </div>
+
+    <!-- Coluna Direita (40% da largura): SIM (topo) e NÃO (base) -->
+    <div class="right-actions-column">
+      <!-- Superior Direito: SIM -->
+      <div id="quad-right-top" class="quadrant-card" data-action-label="Sim">
+        <div class="quadrant-icon">👍</div>
+        <div class="quadrant-title">SIM</div>
+        <div class="quadrant-sub">Fixe o olhar para confirmar</div>
+        <div class="dwell-progress-container">
+          <div class="dwell-progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Inferior Direito: NÃO -->
+      <div id="quad-right-bottom" class="quadrant-card" data-action-label="Não">
+        <div class="quadrant-icon">👎</div>
+        <div class="quadrant-title">NÃO</div>
+        <div class="quadrant-sub">Fixe o olhar para confirmar</div>
+        <div class="dwell-progress-container">
+          <div class="dwell-progress-fill"></div>
+        </div>
+      </div>
     </div>
   </section>
 

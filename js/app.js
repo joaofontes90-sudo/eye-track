@@ -35,9 +35,9 @@ class App {
 
     // Elementos de Quadrantes / Botões
     this.quadrantCards = {
-      'top-left': document.getElementById('quad-top-left'),
-      'top-right': document.getElementById('quad-top-right'),
-      'bottom-rest': document.getElementById('quad-rest')
+      'left-rest': document.getElementById('quad-left-rest'),
+      'right-top': document.getElementById('quad-right-top'),
+      'right-bottom': document.getElementById('quad-right-bottom')
     };
 
     // Parâmetros configuráveis
@@ -245,16 +245,17 @@ class App {
     const h = window.innerHeight;
     const now = performance.now();
 
-    // Zona inferior: DESCANSO DO OLHAR (qualquer olhar do centro para baixo já ativa o descanso)
-    // Zona superior: SIM e NÃO
+    // Divisão Horizontal:
+    // 60% à esquerda: DESCANSO DO OLHAR (área neutra)
+    // 40% à direita: SIM (acima) e NÃO (abaixo)
     let instantQuadKey = null;
 
-    if (y >= h * 0.44) {
-      instantQuadKey = 'bottom-rest';
-    } else if (x < w / 2) {
-      instantQuadKey = 'top-left'; // SIM
+    if (x < w * 0.60) {
+      instantQuadKey = 'left-rest';
+    } else if (y < h * 0.50) {
+      instantQuadKey = 'right-top'; // SIM
     } else {
-      instantQuadKey = 'top-right'; // NÃO
+      instantQuadKey = 'right-bottom'; // NÃO
     }
 
     // Alimenta o buffer temporal de média móvel anti-flicker
@@ -263,21 +264,21 @@ class App {
     const activeQuadKey = stable ? stable.quadKey : instantQuadKey;
 
     if (this.quadConfidenceValue) {
-      if (activeQuadKey === 'bottom-rest') {
-        this.quadConfidenceValue.textContent = "💤 Olhar em Descanso (Neutro)";
+      if (activeQuadKey === 'left-rest') {
+        this.quadConfidenceValue.textContent = "💤 Olhar em Descanso (Neutro - 60% Esq)";
       } else {
         const confPercent = stable ? Math.round(stable.confidence * 100) : 100;
-        const name = activeQuadKey === 'top-left' ? 'SIM' : 'NÃO';
+        const name = activeQuadKey === 'right-top' ? 'SIM (Dir Superior)' : 'NÃO (Dir Inferior)';
         this.quadConfidenceValue.textContent = `Focado em: ${name} (${confPercent}%)`;
       }
     }
 
     // Se estiver na Área de Descanso: apenas destaca e cancela contagens
-    if (activeQuadKey === 'bottom-rest') {
-      if (this.currentFocusedQuadrant !== 'bottom-rest') {
+    if (activeQuadKey === 'left-rest') {
+      if (this.currentFocusedQuadrant !== 'left-rest') {
         this._resetQuadrantProgress();
-        this.currentFocusedQuadrant = 'bottom-rest';
-        this._highlightQuadrant('bottom-rest', true);
+        this.currentFocusedQuadrant = 'left-rest';
+        this._highlightQuadrant('left-rest', true);
       }
       return;
     }

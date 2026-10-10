@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Roteiro de Inspeção Sanitária - Clínica Tipo III (Transplante Capilar)</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 18mm 15mm;
+            @bottom-right {
+                content: counter(page) " / " counter(pages);
+                font-size: 8pt;
+                color: #666;
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1f2937;
+            background-color: #ffffff;
+            font-size: 9.5pt;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            color: #1e3a8a;
+            font-size: 15pt;
+            margin: 0 0 4px 0;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header-title h2 {
+            color: #4b5563;
+            font-size: 10pt;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .badge {
+            background-color: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 8pt;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .info-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #3b82f6;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            font-size: 8.5pt;
+        }
+
+        .info-box strong {
+            color: #1e3a8a;
+        }
+
+        .section-title {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            padding: 5px 10px;
+            font-size: 10pt;
+            font-weight: 600;
+            border-radius: 4px;
+            margin: 14px 0 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            page-break-after: avoid;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+            font-size: 8.5pt;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            text-align: left;
+            padding: 6px 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 8.5pt;
+        }
+
+        td {
+            padding: 6px 8px;
+            border: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .col-id {
+            width: 7%;
+            text-align: center;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .col-desc {
+            width: 81%;
+        }
+
+        .col-status {
+            width: 12%;
+            text-align: center;
+        }
+
+        .checkbox-box {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #64748b;
+            border-radius: 2px;
+            margin: 0 2px;
+            vertical-align: middle;
+        }
+
+        .status-cell {
+            font-size: 7.5pt;
+            color: #64748b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .alert-warning {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 8.5pt;
+            page-break-inside: avoid;
+        }
+
+        .alert-warning strong {
+            color: #b45309;
+        }
+
+        .signature-block {
+            margin-top: 22px;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+        }
+
+        .sign-field {
+            width: 45%;
+            text-align: center;
+            font-size: 8pt;
+        }
+
+        .sign-line {
+            border-bottom: 1px solid #475569;
+            margin-bottom: 6px;
+            height: 30px;
+        }
+
+        .footer-note {
+            margin-top: 12px;
+            font-size: 7.5pt;
+            color: #64748b;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 6px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <h1>Roteiro de Inspeção e Autoavaliação Sanitária</h1>
+            <h2>Clínica Tipo III — Cirurgia Ambulatorial e Transplante Capilar</h2>
+        </div>
+        <div class="badge">
+            Município de Maceió / AL<br>
+            Padrão ANVISA & CFM
+        </div>
+    </div>
+
+    <div class="info-box">
+        <strong>Base Regulatória:</strong> RDC ANVISA nº 50/2002 (Projeto Físico), RDC nº 63/2011 (Boas Práticas de Serviços de Saúde), RDC nº 15/2012 (CME), RDC nº 222/2018 (Resíduos PGRSS), Resolução CFM nº 2.056/2013 (Classificação) e Resolução CFM nº 2.471/2026 (Segurança em Sedação e Anestesia Ambulatorial).
+    </div>
+
+    <!-- SEÇÃO 1 -->
+    <div class="section-title">
+        <span>1. Documentação Legal, Técnica e Administrativa</span>
+        <span style="font-size: 8pt; font-weight: normal;">Obrigatório</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Requisito / Documento Inspecionado</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">1.1</td>
+                <td class="col-desc"><strong>LTA (Laudo Técnico de Avaliação):</strong> Projeto arquitetônico aprovado formalmente pela Vigilância Sanitária Municipal de Maceió (SMS).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.2</td>
+                <td class="col-desc"><strong>Licença / Alvará Sanitário:</strong> Emissão ou renovação anual ativa junto à Visa Maceió (via sistema Facilita Alagoas).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.3</td>
+                <td class="col-desc"><strong>CNES (Cadastro Nacional de Estabelecimentos de Saúde):</strong> Registro regularizado e compatível com atividade cirúrgica ambulatorial.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.4</td>
+                <td class="col-desc"><strong>CRT (Certidão de Regularidade Técnica):</strong> Emitida pelo CRM-AL com designação expressa do Médico Responsável Técnico (com RQE).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.5</td>
+                <td class="col-desc"><strong>Manual de Boas Práticas (MBP) e POPs:</strong> Procedimentos Operacionais Padrão assinados para antissepsia, limpeza, esterilização e intercorrências.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.6</td>
+                <td class="col-desc"><strong>PGRSS (Plano de Gerenciamento de Resíduos de Serviços de Saúde):</strong> Vigente, com contrato de coleta especializada para resíduos biológicos/perfurocortantes.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.7</td>
+                <td class="col-desc"><strong>Contrato de Remoção (UTI Móvel) e Hospital de Retaguarda:</strong> Acordo formal para suporte e transferência imediata em caso de emergência cirúrgica/anestésica.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.8</td>
+                <td class="col-desc"><strong>PMOC e Manutenções:</strong> Plano de Manutenção, Operação e Controle do Ar-Condicionado + laudos de calibração periódica (autoclave, desfibrilador, monitores).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">1.9</td>
+                <td class="col-desc"><strong>Contrato de Lavanderia Hospitalar:</strong> Prestadora regularizada perante a Vigilância Sanitária ou protocolo validado interno conforme a RDC.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SEÇÃO 2 -->
+    <div class="section-title">
+        <span>2. Estrutura Física e Ambientes (RDC ANVISA 50/2002)</span>
+        <span style="font-size: 8pt; font-weight: normal;">Instalações</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Ambiente e Requisitos Físicos</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">2.1</td>
+                <td class="col-desc"><strong>Sala Cirúrgica / Procedimentos:</strong> Paredes, pisos e teto com material liso, lavável, impermeável e resistente a desinfetantes; ausência de ralos abertos (ou com tampa escamoteável sifonada vedada); climatização adequada.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">2.2</td>
+                <td class="col-desc"><strong>Lavatório Cirúrgico (Escovação de Mãos):</strong> Cuba profunda (inox ou louça), torneira com acionamento não manual (cotovelo, pedal ou sensor), dispensador de clorexidina degermante e toalheiro descartável.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">2.3</td>
+                <td class="col-desc"><strong>Sala de Recuperação Pós-Anestésica (RPA/RPO):</strong> Poltrona/leito reclinável, suporte para infusão venosa, fácil acesso a oxigênio e equipamentos de monitorização pós-operatória.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">2.4</td>
+                <td class="col-desc"><strong>CME (Central de Material Esterilizado):</strong> Barreira física com fluxo unidirecional evidente: Área Suja (Expurgo/Lavagem) &rarr; Área Limpa (Preparo/Esterilização) &rarr; Armazenamento estéril.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">2.5</td>
+                <td class="col-desc"><strong>DML e Abrigo de Resíduos:</strong> Depósito de material de limpeza com tanque exclusivo; abrigo externo de resíduos revestido, telado, fechado e identificado (Grupo A, E e D).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- SEÇÃO 3 -->
+    <div class="section-title">
+        <span>3. Equipamentos, Monitorização e Suporte de Emergência</span>
+        <span style="font-size: 8pt; font-weight: normal;">Segurança do Paciente</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Equipamentos e Insumos Obrigatórios</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">3.1</td>
+                <td class="col-desc"><strong>Oxigenioterapia e Aspiração:</strong> Fonte de oxigênio (rede ou cilindro com manômetro e carga completa), fluxômetro, umidificador, e aspirador elétrico cirúrgico/portátil com frasco coletor e sondas estéreis.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">3.2</td>
+                <td class="col-desc"><strong>Manejo de Vias Aéreas:</strong> Bolsa-válvula-máscara (AMBU com reservatório), cânulas de Guedel (diversos calibres), laringoscópio completo com lâminas testadas, videolaringoscópio, tubos endotraqueais e máscaras laríngeas.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">3.3</td>
+                <td class="col-desc"><strong>Monitorização Multiparâmetro:</strong> Monitor com eletrocardiograma (ECG contínuo), oximetria de pulso (SpO2), pressão arterial não invasiva (PNI) e <em>capnografia contínua</em> (obrigatória em sedação).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">3.4</td>
+                <td class="col-desc"><strong>Desfibrilação e Ressuscitação:</strong> Desfibrilador Externo Automático (DEA) ou Cardioversor com pás, bateria com carga plena e registro de checklist diário.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">3.5</td>
+                <td class="col-desc"><strong>Carrinho/Maleta de Emergência:</strong> Fármacos dentro da validade: Adrenalina, Atropina, Anti-histamínicos, Corticoides, Amiodarona, Benzodiazepínicos, Flumazenil, Broncodilatadores e soluções cristaloides.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">3.6</td>
+                <td class="col-desc"><strong>Equipamentos de Transplante Capilar:</strong> Micromotores FUE, punches cirúrgicos, implanters, lâminas de safira/aço, lupas/microscópios devidamente registrados na Anvisa com manutenções preventivas.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="alert-warning">
+        <strong>Atenção à Resolução CFM nº 2.471/2026:</strong> Em procedimentos ambulatoriais com qualquer nível de sedação, é obrigatória a presença de <em>médico anestesiologista dedicado exclusivamente à sedação</em>, monitorização por capnografia e ECG contínuo, e contrato formal com hospital de retaguarda.
+    </div>
+
+    <!-- SEÇÃO 4 -->
+    <div class="section-title">
+        <span>4. Biossegurança, Esterilização e Controle de Infecções</span>
+        <span style="font-size: 8pt; font-weight: normal;">RDC 15/2012</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Controle de Esterilização e Insumos</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">4.1</td>
+                <td class="col-desc"><strong>Controle de Autoclave:</strong> Livro ou planilha com registro de data, ciclo, operador, lote, resultado do integrador químico classe 5/6 (a cada ciclo) e indicador biológico semanal.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">4.2</td>
+                <td class="col-desc"><strong>Embalagens Grau Cirúrgico:</strong> Selagem íntegra e sem rugas, identificadas com descrição do material, número de lote, data de esterilização e prazo de validade.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">4.3</td>
+                <td class="col-desc"><strong>EPIs da Equipe:</strong> Capotes cirúrgicos estéreis, luvas cirúrgicas de látex/nitrilo estéreis, máscaras cirúrgicas/PFF2, gorros, óculos de proteção facial e propés.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">4.4</td>
+                <td class="col-desc"><strong>Saneantes e Antissépticos:</strong> Produtos com registro na ANVISA, armazenamento adequado, sem frascos destampados ou fora da data de validade (álcool 70%, clorexidina degermante e alcoólica, detergente enzimático).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">4.5</td>
+                <td class="col-desc"><strong>Higienização da Água:</strong> Certificado de limpeza e desinfecção semestral dos reservatórios de água e laudo de potabilidade recente.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SEÇÃO 5 -->
+    <div class="section-title">
+        <span>5. Prontuários, Termos e Rastreabilidade do Paciente</span>
+        <span style="font-size: 8pt; font-weight: normal;">Documentação Clínica</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Registros e Protocolos Clínicos</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">5.1</td>
+                <td class="col-desc"><strong>Prontuário Médico Completo:</strong> Anamnese minuciosa, exames pré-operatórios, avaliação de risco cirúrgico/cardiológico, descrição detalhada do procedimento cirúrgico e prescrições.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">5.2</td>
+                <td class="col-desc"><strong>Ficha de Registro Transoperatório:</strong> Anotação sequencial de sinais vitais durante todo o transplante, medicamentos/anestésicos administrados e horários de início e término.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">5.3</td>
+                <td class="col-desc"><strong>TCLE Específico:</strong> Termo de Consentimento Livre e Esclarecido com riscos específicos da cirurgia capilar (FUE/FUT) e da sedação/anestesia local assinado pelo paciente.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">5.4</td>
+                <td class="col-desc"><strong>Rastreabilidade de Dispositivos e Fármacos:</strong> Registro no prontuário do lote dos anestésicos, lâminas, fios de sutura e insumos implantáveis utilizados.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SEÇÃO 6 -->
+    <div class="section-title">
+        <span>6. Gerenciamento de Resíduos de Saúde (RDC 222/2018)</span>
+        <span style="font-size: 8pt; font-weight: normal;">PGRSS</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">Item</th>
+                <th class="col-desc">Segregação, Acondicionamento e Descarte</th>
+                <th class="col-status">Conforme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">6.1</td>
+                <td class="col-desc"><strong>Perfurocortantes (Grupo E - Lâminas, punches, agulhas):</strong> Descarte imediato em caixas rígidas (Descarpack) em suporte de parede, sem ultrapassar o limite de preenchimento (linha pontilhada).</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">6.2</td>
+                <td class="col-desc"><strong>Resíduos Biológicos (Grupo A - Gazes, campos, enxertos):</strong> Lixeiras com acionamento exclusivamente por pedal, identificadas com símbolo de risco biológico e saco branco leitoso.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+            <tr>
+                <td class="col-id">6.3</td>
+                <td class="col-desc"><strong>Resíduos Comuns (Grupo D) e Químicos (Grupo B):</strong> Segregação adequada com sacos pretos/azuis e destinação correta de medicamentos vencidos ou frascos de anestésicos.</td>
+                <td class="col-status"><span class="checkbox-box"></span> Sim &nbsp; <span class="checkbox-box"></span> Não</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SEÇÃO 7 -->
+    <div class="section-title">
+        <span>7. Tramitação e Contatos Úteis em Maceió / AL</span>
+        <span style="font-size: 8pt; font-weight: normal;">Órgão Municipal</span>
+    </div>
+    <div style="font-size: 8.5pt; line-height: 1.5; margin-bottom: 15px;">
+        • <strong>Abertura de Processos / Licenciamento:</strong> Portal <em>Facilita Alagoas</em> (<a href="https://www.facilita.al.gov.br" style="color: #1e40af;">www.facilita.al.gov.br</a>)<br>
+        • <strong>Vigilância Sanitária Municipal de Maceió (VISA Maceió / SMS):</strong> Rua Alexandre Passos, S/N – Jaraguá, Maceió - AL.<br>
+        • <strong>Telefones:</strong> (82) 3312-5495 / (82) 3312-5496 &nbsp;|&nbsp; <strong>WhatsApp Institucional:</strong> (82) 98752-2000
+    </div>
+
+    <div class="signature-block">
+        <div class="sign-field">
+            <div class="sign-line"></div>
+            <strong>Responsável Técnico (Médico)</strong><br>
+            Nome / CRM-AL / RQE
+        </div>
+        <div class="sign-field">
+            <div class="sign-line"></div>
+            <strong>Fiscal da Vigilância Sanitária / Auditor</strong><br>
+            Nome / Matrícula / Data: ____/____/2026
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Documento técnico de conformidade sanitária para clínicas cirúrgicas ambulatoriais e de transplante capilar.
+    </div>
+
+</body>
+</html>
