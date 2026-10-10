@@ -319,16 +319,19 @@ body, html {
 }
 
 /* ==========================================================
-   ESTÁGIO 3: LAYOUT ASSISTIVO (DESCANSO 60% ESQ | SIM & NÃO 40% DIR)
+   ESTÁGIO 3: LAYOUT ASSISTIVO (PREENCHIMENTO TOTAL 100% TELA)
    ========================================================== */
 #stage-quadrants {
   display: grid;
-  grid-template-columns: 60fr 40fr;
-  gap: 24px;
-  padding: 24px;
+  grid-template-columns: 60vw 40vw;
+  grid-template-rows: 100vh;
+  gap: 0;
+  padding: 0;
+  margin: 0;
   background-color: #050811;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .quadrant-card {
@@ -337,49 +340,44 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 28px;
-  border: 4px solid transparent;
+  border-radius: 0;
+  border: none;
   background-color: var(--card-bg);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
   cursor: pointer;
 }
 
-/* Coluna Esquerda: DESCANSO DO OLHAR (60% da largura) */
+/* Coluna Esquerda: DESCANSO DO OLHAR (100% vertical x 60% horizontal) */
 .left-rest-card {
-  height: 100%;
-  background: rgba(15, 23, 42, 0.65);
-  border: 3px dashed rgba(148, 163, 184, 0.3);
-  border-radius: 28px;
+  width: 100%;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.8);
+  border-right: 3px dashed rgba(148, 163, 184, 0.3) !important;
   color: #94a3b8;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .left-rest-card .quadrant-icon {
-  font-size: 5rem;
-  margin-bottom: 16px;
+  font-size: 5.5rem;
+  margin-bottom: 20px;
 }
 
 .left-rest-card .quadrant-title {
-  font-size: 3rem;
+  font-size: 3.4rem;
   font-weight: 800;
   color: #cbd5e1;
   letter-spacing: 2px;
 }
 
 .left-rest-card .quadrant-sub {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   color: #64748b;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .left-rest-card.focused {
-  border-color: #38bdf8;
-  border-style: solid;
-  background: rgba(12, 74, 110, 0.25);
-  box-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
-  transform: scale(1.01);
+  background: rgba(12, 74, 110, 0.35);
+  box-shadow: inset 0 0 0 6px #38bdf8, inset 0 0 80px rgba(56, 189, 248, 0.35);
 }
 
 .left-rest-card.focused .quadrant-title {
@@ -390,53 +388,54 @@ body, html {
   color: #bae6fd;
 }
 
-/* Coluna Direita (40% da largura): Ações SIM e NÃO */
+/* Coluna Direita (40% largura): 100% da altura dividida em 50vh + 50vh */
 .right-actions-column {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 24px;
-  height: 100%;
+  grid-template-rows: 50vh 50vh;
+  gap: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.right-actions-column .quadrant-card {
+  width: 100%;
+  height: 50vh;
 }
 
 .right-actions-column .quadrant-icon {
-  font-size: 4rem;
-  margin-bottom: 8px;
-  transition: transform 0.2s ease;
+  font-size: 4.5rem;
+  margin-bottom: 10px;
 }
 
 .right-actions-column .quadrant-title {
-  font-size: 3.2rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
 }
 
 .right-actions-column .quadrant-sub {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
-/* Cores específicas dos botões de ação */
+/* Superior Direito: SIM */
 #quad-right-top {
   color: var(--color-sim);
-  border-color: rgba(16, 185, 129, 0.25);
+  border-bottom: 3px solid rgba(148, 163, 184, 0.25) !important;
 }
 #quad-right-top.focused {
-  border-color: var(--color-sim);
-  background-color: rgba(16, 185, 129, 0.16);
-  box-shadow: 0 0 50px rgba(16, 185, 129, 0.45);
-  transform: scale(1.02);
+  background-color: rgba(16, 185, 129, 0.2);
+  box-shadow: inset 0 0 0 6px var(--color-sim), inset 0 0 70px rgba(16, 185, 129, 0.4);
 }
 
+/* Inferior Direito: NÃO */
 #quad-right-bottom {
   color: var(--color-nao);
-  border-color: rgba(239, 68, 68, 0.25);
 }
 #quad-right-bottom.focused {
-  border-color: var(--color-nao);
-  background-color: rgba(239, 68, 68, 0.16);
-  box-shadow: 0 0 50px rgba(239, 68, 68, 0.45);
-  transform: scale(1.02);
+  background-color: rgba(239, 68, 68, 0.2);
+  box-shadow: inset 0 0 0 6px var(--color-nao), inset 0 0 70px rgba(239, 68, 68, 0.4);
 }
 
 /* Animação ao disparar seleção */
