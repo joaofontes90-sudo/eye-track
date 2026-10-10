@@ -1,7 +1,7 @@
-import { EyeTracker } from './eye_tracker.js?v=6';
-import { Calibrator } from './calibrator.js?v=6';
-import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js?v=6';
-import { sounds } from './audio.js?v=6';
+import { EyeTracker } from './eye_tracker.js?v=7';
+import { Calibrator } from './calibrator.js?v=7';
+import { AdaptiveGazeFilter, TemporalQuadrantClassifier } from './smooth_filter.js?v=7';
+import { sounds } from './audio.js?v=7';
 
 class App {
   constructor() {
@@ -109,17 +109,6 @@ class App {
         }
       });
     }
-
-    // Suporte a mouse para testes manuais quando a câmera não estiver fornecendo olhar
-    window.addEventListener('mousemove', (e) => {
-      if (this.stage === 'quadrants') {
-        const gaze = this.eyeTracker?.lastEyeGaze;
-        if (!gaze || !gaze.faceDetected || !gaze.valid) {
-          this.evaluateQuadrantFocus(e.clientX, e.clientY);
-          this.updateGazeCursor(e.clientX, e.clientY);
-        }
-      }
-    });
 
     // Atalhos de teclado para facilidade de teste
     window.addEventListener('keydown', (e) => {

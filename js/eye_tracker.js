@@ -63,14 +63,21 @@ export class EyeTracker {
 
   async _processVideo() {
     if (!this.isRunning) return;
-    if (this.video.readyState >= 2) {
-      await this.faceMesh.send({ image: this.video });
+    try {
+      if (this.video && this.video.readyState >= 2) {
+        await this.faceMesh.send({ image: this.video });
+      }
+    } catch (err) {
+      console.warn("Aviso no loop do FaceMesh:", err);
     }
-    requestAnimationFrame(() => this._processVideo());
+    if (this.isRunning) {
+      requestAnimationFrame(() => this._processVideo());
+    }
   }
 
   _onFaceMeshResults(results) {
-    this._updateFps();
+    try {
+      this._updateFps();
 
     let eyeGaze = {
       valid: false,
@@ -130,6 +137,9 @@ export class EyeTracker {
     if (this.onFrame) {
       this.onFrame(eyeGaze, this.fps);
     }
+    } catch (err) {
+      console.warn("Erro ao processar resultados FaceMesh:", err);
+    }
   }
 
   _extractEyeGeometry(lm, eyeSide) {
@@ -169,6 +179,7 @@ export class EyeTracker {
     const minX = Math.min(inner.x, outer.x);
     const maxX = Math.max(inner.x, outer.x);
     const spanX = maxX - minX;
+    let rawGx = spanX > 0.001 ? (iris.x - minX) / spanX : 0.5;
 
     // Expansão de sensibilidade horizontal e vertical para amplitude ocular de paciente acamado
     let centeredGx = (1 - rawGx) - 0.50;
